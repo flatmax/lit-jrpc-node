@@ -63,72 +63,31 @@ export class LitJRPC extends JRPCClient {
   Create a button for each of the available functions.
   */
   setupDone() {
-    Object.keys(this.server).forEach(fn => {
-      if (fn.indexOf('.server')<0 && fn.indexOf('.dual-batch')<0){
-        let btn=document.createElement('mwc-button');
-        btn.raised=true; btn.elevation=10;
-        btn.onclick=this.server[fn];
-        btn.textContent=fn;
-        this.shadowRoot.appendChild(btn);
-      }
-    });
+    // add the write to file button
+    let btn=document.createElement('mwc-button');
+    btn.raised=true; btn.elevation=10;
+    btn.onclick=this.writeObjToFile();
+    btn.textContent='Check the browser and node console';
+    this.shadowRoot.appendChild(btn);
+
+    console.log('look at the master branch of jrpc-oo for more examples');
   }
 
   remoteIsUp(){
     console.log('LitJRPC::remoteIsUp')
-    this.addClass(this); // do this for the remote to be able to call us - not necessary if execution is one way
+    // this.addClass(this); // do this for the remote to be able to call us - not necessary if execution is one way
   }
 
-  /** This method test passing arguments to the server
-  */
-  testArgPass() {
-    var lj = document.querySelector('lit-jrpc');
-    if (lj.server['TestClass.fn2']!=null)
-      lj.server['TestClass.fn2'](1, {0: 'test', 1: [ 1 ,2], 2: 'this function'});
-    else
-      console.log('expected the server to expose a class TestClass with function fn2 but couldn\'t find it');
+  writeObjToFile(){
+    console.log('writeObjToFile')
+    let dat={name:'var',value:10};
+    console.log('asking nodejs to write the following to file ');
+    console.log(JSON.stringify(dat,null,2));
+    this.server['TestClass.writeToFile'](dat);
   }
 
-  /** This method test no passing arguments to the server
-  */
-  testNoArgPass() {
-    var lj = document.querySelector('lit-jrpc');
-    if (lj.server['TestClass.fn1']!=null)
-      lj.server['TestClass.fn1']();
-    else
-      console.log('expected the server to expose a class TestClass with function fn1 but couldn\'t find it');
-  }
-
-  /** This function is defined on the server, when we call
-  this.server['TestClass.fn1']()
-  This function will be called to process the server's response.
-  */
-  'TestClass.fn1'(params) {
+  'TestClass.writeToFile'(params) {
     console.log('local-client : response from the server :')
-    console.log('lit-jrpc : TestClass.fn1 : params = '+JSON.stringify(params, null, 2))
-  }
-
-  // Don't define this function to force jrpc-client to react to a missing function
-  // 'TestClass.fn2'(params){
-  //   console.log('local-client : response from the server :')
-  //   console.log('lit-jrpc : TestClass.fn2 : params = '+JSON.stringify(params, null, 2))
-  // }
-
-  /** This function is defined on the server, when we call
-  this.server['TestClass.fn1']()
-  This function will be called to process the server's response.
-  */
-  'TestClass2.fn3'(params) {
-    console.log('local-client : response from the server :')
-    console.log('lit-jrpc : TestClass.fn3 : params = '+JSON.stringify(params, null, 2))
-  }
-
-
-  /** This function is defined on the server, when we call
-  this.server.system.listComponents()
-  This function will be called to process the server's response.
-  */
-  'system.listComponents'(params) {
-    console.log('lit-jrpc : system.listComponents : params = '+JSON.stringify(params, null, 2))
+    console.log('lit-jrpc : TestClass.writeTofile : params = '+JSON.stringify(params, null, 2))
   }
 }
