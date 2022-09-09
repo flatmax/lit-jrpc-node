@@ -30,6 +30,8 @@
 
 "use strict";
 
+const fs = require('fs');
+
 /** The functions for this test class will automatically be extracted for use with jrpc*/
 class TestClass {
   constructor(){
@@ -51,6 +53,14 @@ class TestClass {
     console.log('arg2 :');
     console.log(JSON.stringify(arg2, null, 2))
     return arg1;
+  }
+
+  writeToFile(arg){
+    let fn = '/tmp/browser.json';
+    console.log('writing the following data to '+fn)
+    console.log(JSON.stringify(arg,null,2))
+    fs.writeFileSync(fn,JSON.stringify(arg));
+    return 'written';
   }
 
   get server(){return this.getServer();}
