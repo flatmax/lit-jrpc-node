@@ -1,6 +1,6 @@
 {
   "name": "@flatmax/lit-jrpc-node",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Microapp to connect Lit and node with jrpc-oo. This is a microapp starter.",
   "author": "@flatmax",
   "license": "MIT",
