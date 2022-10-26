@@ -83,11 +83,10 @@ export class LitJRPC extends JRPCClient {
     let dat={name:'var',value:10};
     console.log('asking nodejs to write the following to file ');
     console.log(JSON.stringify(dat,null,2));
-    this.server['TestClass.writeToFile'](dat);
-  }
-
-  'TestClass.writeToFile'(params) {
-    console.log('local-client : response from the server :')
-    console.log('lit-jrpc : TestClass.writeTofile : params = '+JSON.stringify(params, null, 2))
+    this.server['TestClass.writeToFile'](dat)
+    .then((params) => {
+      console.log('local-client : response from the server :')
+      console.log('lit-jrpc : TestClass.writeTofile : params = '+JSON.stringify(params, null, 2))
+    });
   }
 }
